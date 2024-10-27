@@ -1,1 +1,128 @@
+#include <iostream>
+#include <string>
+#include <iomanip>
+using namespace std;
 
+int main(){
+    // Variable declaration and initialization
+    float MonthlyIncome = 0.0, AnnualIncome = 0.0, TotalFamilyMembers = 0.0, GWA = 0.0, QPA = 0.0;
+    char freshman, regularStudent, FilipinoGMRC, FEUCAT, pwd;
+    bool isFreshman = false, isRegularStudent = false, isFilipinoGMRC = false, isFEUCAT = false, isPWD = false;
+
+    // Constant declaration for income clusters
+    const float Poor_MAX = 12082.0, LowIncome_MIN = 12082.0, LowIncome_MAX = 24164.0, LowMiddle_MIN = 24164.0,
+                LowMiddle_MAX = 48328.0, Middle_MIN = 48328.0, Middle_MAX = 84574.0, UpperMiddle_MIN = 84574.0,
+                UpperMiddle_MAX = 144984.0, UpperIncome_MIN = 144984.0, UpperIncome_MAX = 241640.0, Rich_MIN = 241640.0;
+    
+    // Constant declaration for PCI (Per Capita Income) descriptions
+    const string Poor_PCI = "Less than the official poverty threshold.",
+                 LowIncome_PCI = "Between the poverty line and twice the poverty line.",
+                 LowMiddle_PCI = "Between two and four times the poverty line.",
+                 Middle_PCI = "Between four and seven times the poverty line.",
+                 UpperMiddle_PCI = "Between seven and 12 times the poverty line.",
+                 UpperIncome_PCI = "Between 12 and 20 times the poverty line.",
+                 Rich_PCI = "At least 20 times the poverty line.";
+
+    // Program title
+    string title = "GrantGuide FEU";
+    int consoleWidth = 80;
+    int padding = (consoleWidth - title.length()) / 2;
+    cout << setw(padding + title.length()) << title << endl;
+
+    // Program description
+    cout << "\nAre you looking for a scholarship?\nGrantGuide FEU is created to help students like you at Far Eastern University (FEU) Main Campus\n"
+         << "find scholarships that you might be eligible for!\n\n";
+
+    // Prompt for freshman status
+    while (true) {
+        cout << "Are you an incoming freshman student? (Type 'Y' or 'N')\t: ";
+        cin >> freshman;
+        if (freshman == 'Y' || freshman == 'y') { isFreshman = true; break; }
+        else if (freshman == 'N' || freshman == 'n') { isFreshman = false; break; }
+        else { cout << "Invalid input. Please type 'Y' or 'N' only." << endl; }
+    }
+
+    // Prompt for regular student status only if not a freshman
+    if (!isFreshman) {
+        while (true) {
+            cout << "Are you a regular FEU student? (Type 'Y' or 'N')\t: ";
+            cin >> regularStudent;
+            if (regularStudent == 'Y' || regularStudent == 'y') { isRegularStudent = true; break; }
+            else if (regularStudent == 'N' || regularStudent == 'n') { isRegularStudent = false; break; }
+            else { cout << "Invalid input. Please type 'Y' or 'N' only." << endl; }
+        }
+    }
+
+    // Check if both freshman and regular student answers are "No"
+    if (!isFreshman && !isRegularStudent) {
+        cout << "\nError: You must be either an incoming freshman or a regular FEU student to proceed.\n";
+        return 0; // Exit program if both conditions are false
+    }
+
+    // Prompt for Filipino citizenship and good moral status
+    while (true) {
+        cout << "Are you a Filipino citizen with good moral character? (Type 'Y' or 'N')\t: ";
+        cin >> FilipinoGMRC;
+        if (FilipinoGMRC == 'Y' || FilipinoGMRC == 'y') { isFilipinoGMRC = true; break; }
+        else if (FilipinoGMRC == 'N' || FilipinoGMRC == 'n') { isFilipinoGMRC = false; break; }
+        else { cout << "Invalid input. Please type 'Y' or 'N' only." << endl; }
+    }
+
+    // Prompt for FEUCAT superior rating
+    while (true) {
+        cout << "Do you have at least a SUPERIOR rating in FEUCAT? (Type 'Y' or 'N')\t: ";
+        cin >> FEUCAT;
+        if (FEUCAT == 'Y' || FEUCAT == 'y') { isFEUCAT = true; break; }
+        else if (FEUCAT == 'N' || FEUCAT == 'n') { isFEUCAT = false; break; }
+        else { cout << "Invalid input. Please type 'Y' or 'N' only." << endl; }
+    }
+
+    // Prompt for PWD status
+    while (true) {
+        cout << "Are you a Person With Disability (PWD)? (Type 'Y' or 'N')\t: ";
+        cin >> pwd;
+        if (pwd == 'Y' || pwd == 'y') { isPWD = true; break; }
+        else if (pwd == 'N' || pwd == 'n') { isPWD = false; break; }
+        else { cout << "Invalid input. Please type 'Y' or 'N' only." << endl; }
+    }
+
+    // Prompt for Annual Income
+    cout << "Please enter your family's annual income:\t";
+    while (!(cin >> AnnualIncome) || AnnualIncome < 0) {
+        cout << "Invalid input. Please enter a valid annual income:\t";
+        cin.clear(); cin.ignore(10000, '\n');
+    }
+
+    // Prompt for GWA
+    cout << "Please enter your General Weighted Average (GWA):\t";
+    while (!(cin >> GWA) || GWA < 0 || GWA > 100) {
+        cout << "Invalid input. Please enter a GWA between 0 and 100:\t";
+        cin.clear(); cin.ignore(10000, '\n');
+    }
+
+    // Determine income cluster and PCI indication
+    string incomeCluster, pciDescription;
+    if (AnnualIncome < Poor_MAX) { incomeCluster = "Poor"; pciDescription = Poor_PCI; }
+    else if (AnnualIncome >= LowIncome_MIN && AnnualIncome < LowIncome_MAX) { incomeCluster = "Low-income class (but not poor)"; pciDescription = LowIncome_PCI; }
+    else if (AnnualIncome >= LowMiddle_MIN && AnnualIncome < LowMiddle_MAX) { incomeCluster = "Lower-middle income class"; pciDescription = LowMiddle_PCI; }
+    else if (AnnualIncome >= Middle_MIN && AnnualIncome < Middle_MAX) { incomeCluster = "Middle-middle income class"; pciDescription = Middle_PCI; }
+    else if (AnnualIncome >= UpperMiddle_MIN && AnnualIncome < UpperMiddle_MAX) { incomeCluster = "Upper-middle income class"; pciDescription = UpperMiddle_PCI; }
+    else if (AnnualIncome >= UpperIncome_MIN && AnnualIncome < UpperIncome_MAX) { incomeCluster = "Upper-income class (but not rich)"; pciDescription = UpperIncome_PCI; }
+    else { incomeCluster = "Rich"; pciDescription = Rich_PCI; }
+
+    // Display income cluster with PCI indication
+    cout << "\nYour income cluster is: " << incomeCluster << " (" << pciDescription << ")\n";
+
+    // Determine eligible scholarships
+    cout << "\nYou are eligible for the following scholarships:\n";
+    bool eligible = false;
+    if (isFilipinoGMRC && isFreshman && isFEUCAT && GWA >= 88) { cout << "- Entrance Scholarship\n"; eligible = true; }
+    if (isFilipinoGMRC && isFreshman && isFEUCAT && AnnualIncome <= 100000) { cout << "- LEAP (Long Term Educational Assistance Program)\n"; eligible = true; }
+    if (isFilipinoGMRC && isFreshman && isFEUCAT && GWA >= 88) { cout << "- NRSSP (Nicanor Reyes Science Scholarship Program)\n"; eligible = true; }
+    if (isFilipinoGMRC && QPA >= 3.20 && isRegularStudent) { cout << "- Academic Scholarship\n"; eligible = true; }
+    if (isPWD) { cout << "- PWD Discount\n"; eligible = true; }
+    if (isFilipinoGMRC && isFreshman && isFEUCAT && GWA >= 88) { cout << "- Teacher Scholarship Program\n"; eligible = true; }
+    if (!eligible) { cout << "None\n"; }
+
+    return 0;
+}
