@@ -196,13 +196,26 @@ int main(){
     // Determine eligible scholarships
     cout << "\nYou are eligible for the following scholarships:\n";
     bool eligible = false;
-    if (isFilipinoGMRC && isFreshman && isFEUCAT && GWA >= 88) { cout << "- Entrance Scholarship\n"; eligible = true; }
-    if (isFilipinoGMRC && isFreshman && isFEUCATavg && isFinanceEval && AnnualIncome <= 100000) { cout << "- LEAP (Long Term Educational Assistance Program)\n"; eligible = true; }
-    if (isFilipinoGMRC && isFreshman && isFEUCAT && GWA >= 88) { cout << "- NRSSP (Nicanor Reyes Science Scholarship Program)\n"; eligible = true; }
-    if (isFilipinoGMRC && QPA >= 3.20 && Grade >= 2.5 && isRegularStudent) { cout << "- Academic Scholarship\n"; eligible = true; }
-    if (isPWD) { cout << "- PWD Discount\n"; eligible = true; }
-    if (isFilipinoGMRC && isFreshman && isFEUCAT && GWA >= 88) { cout << "- Teacher Scholarship Program\n"; eligible = true; }
-    if (!eligible) { cout << "None\n"; }
+    if (isFilipinoGMRC && isFreshman && isFEUCAT && GWA >= 88) 
+        { cout << "- Entrance Scholarship (Merit-based)\n"; eligible = true; }
+
+    if (isFilipinoGMRC && isFreshman && isFEUCATavg && isFinanceEval && AnnualIncome <= 100000) 
+        { cout << "- LEAP (Long Term Educational Assistance Program) (Needs-based)\n"; eligible = true; }
+
+    if (isFilipinoGMRC && isFreshman && isFEUCAT && GWA >= 88) 
+        { cout << "- NRSSP (Nicanor Reyes Science Scholarship Program) (Needs-based)\n"; eligible = true; }
+
+    if (isFilipinoGMRC && QPA >= 3.20 && Grade >= 2.5 && isRegularStudent) 
+        { cout << "- Academic Scholarship (Merit-based)\n"; eligible = true; }
+
+    if (isPWD) 
+        { cout << "- PWD Discount (Needs-based)\n"; eligible = true; }
+
+    if (isFilipinoGMRC && isFreshman && isFEUCAT && GWA >= 88) 
+        { cout << "- Teacher's Scholarship Program (Merit-based)\n"; eligible = true; }
+        
+    if (!eligible) 
+        { cout << "None\n"; }
 
     // End of program
     cout << "\nThank you for using GrantGuide FEU!" <<
